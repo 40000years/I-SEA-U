@@ -1,24 +1,24 @@
 from pathlib import Path
 import os
 from datetime import timedelta
-import dj_database_url  # Add this for parsing PostgreSQL URL
+import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# ตั้งค่า BASE_DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-q)d@zxjo28)dtwn9f_^xge^t*14)aoj!(sp^fzybd)dg&nd@$z')
+# อ่าน SECRET_KEY จาก environment variable (หรือใช้ค่า default สำหรับ dev)
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-q)d@zxjo28)dtskills://github.com/xai/grok/blob/main/docs/FAQ.md#how-to-ask-questions)')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# ตั้งค่า DEBUG จาก environment variable
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-# Allow Render's host and additional hosts
+# กำหนด ALLOWED_HOSTS สำหรับ Render
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'i-sea-u-the-final.onrender.com', '*']
 
-# CORS settings
+# ตั้งค่า CORS
 CORS_ALLOW_ALL_ORIGINS = True
 
-# Application definition
+# รายการแอปที่ติดตั้ง
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -32,9 +32,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add for static file serving
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # สำหรับ static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -46,10 +47,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'user_service.urls'
 
+# ตั้งค่า templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'app_frontend')],
+  'DIRS': [os.path.join(BASE_DIR, 'app_frontend')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,49 +66,41 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'user_service.wsgi.application'
 
-# Database configuration for PostgreSQL
+# ตั้งค่า PostgreSQL จาก DATABASE_URL
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://database_wywm_user:7egWU9W7MatVVW2CwADKcvdPxwjIdfNJ@dpg-d0iuh495pdvs739slsjg-a/database_wywm',
+        default=os.environ.get('DATABASE_URL'),
         conn_max_age=600
     )
 }
 
-# Password validation
+# การตรวจสอบรหัสผ่าน
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
+# การตั้งค่าสากล
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# การตั้งค่า static files
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Where collectstatic will store files
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # For production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files
+# การตั้งค่า media files
 MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
-# Default primary key field type
+# การตั้งค่า primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# REST Framework settings
+# การตั้งค่า REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -116,7 +110,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Simple JWT settings
+# การตั้งค่า Simple JWT
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),

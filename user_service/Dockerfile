@@ -1,31 +1,31 @@
-# Use the official Python 3.11 image
+# ใช้ Python 3.11 เป็น base image
 FROM python:3.11
 
-# Set environment variables
+# ตั้งค่า environment variables เพื่อป้องกันการเขียน bytecode และให้ output ทันที
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set working directory
+# ตั้ง working directory ใน container
 WORKDIR /code
 
-# Install system dependencies (if needed)
+# ติดตั้ง dependencies ของระบบ (สำหรับ PostgreSQL)
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
+# คัดลอก requirements.txt และติดตั้ง Python dependencies
 COPY requirements.txt /code/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
+# คัดลอกโค้ดทั้งหมดไปยัง container
 COPY . /code/
 
-# Collect static files
+# รวบรวม static files
 RUN python manage.py collectstatic --noinput
 
-# Expose port (Render uses 10000 by default)
+# เปิดพอร์ต 10000 (Render ใช้พอร์ตนี้)
 EXPOSE 10000
 
-# Run gunicorn
+# รัน gunicorn เพื่อให้บริการแอป
 CMD ["gunicorn", "--bind", "0.0.0.0:10000", "user_service.wsgi:application"]

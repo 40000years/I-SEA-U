@@ -15,5 +15,5 @@ urllib3==2.2.1
 psycopg2-binary==2.9.9
 pillow==9.5.0
 gunicorn==21.2.0
-whitenoise==6.6.0  # Added for static file serving
-dj-database-url==2.1.0  # Added for PostgreSQL URL parsing
+whitenoise==6.6.0  # สำหรับจัดการ static files
+dj-database-url==2.1.0  # สำหรับ parse PostgreSQL URL

@@ -87,3 +87,17 @@ local_settings.py
 
 .env
 db.sqlite3
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+*.sqlite3
+staticfiles/
+images/
+*.log
+.git
+.gitignore
